@@ -83,8 +83,8 @@ window.onload = function() {
                                "<h4><strong>¡Te ha invitado a su cumple!</strong></h4>" +
                                "<h5>El día " + formatDate(startDate) + " de " + formattedStartTime + " hasta " + formattedEndTime + "</h5>";
 
-  // Calcular el tiempo restante hasta el cumpleaños
-  var today = new Date();
+// Calcular el tiempo restante hasta el cumpleaños
+var today = new Date();
   startDate.setFullYear(today.getFullYear()); // Asegurarse de que el año del cumpleaños sea el mismo que el año actual
   
   if (today > startDate) {
@@ -111,16 +111,48 @@ window.onload = function() {
     
     // Generar la URL completa con los datos codificados
     var completeURL = baseURL + '?data=' + encodedUserData;
+
+    // Acortar la URL utilizando Bitly
+    var accessToken = 'TU_ACCESS_TOKEN_DE_BITLY';
+    var groupGuid = 'TU_GROUP_GUID_DE_BITLY'; // Puedes usar 'default' si no tienes grupos
+    var bitlyURL = 'https://api-ssl.bitly.com/v4/shorten';
     
-    // Generar el enlace compartido por WhatsApp
-    var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + completeURL;
-    var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
-    var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
+    fetch(bitlyURL, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + accessToken,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        group_guid: groupGuid,
+        long_url: completeURL
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      var shortURL = data.link;
+
+      // Generar el enlace compartido por WhatsApp
+      var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + shortURL;
+      var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
+      var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
     
-    // Abrir WhatsApp con el enlace compartido
-    window.open(whatsappURL);
+      // Abrir WhatsApp con el enlace compartido
+      window.open(whatsappURL);
+    })
+    .catch(error => {
+      console.error('Error al acortar la URL:', error);
+      // Si hay un error al acortar la URL, simplemente compartir la URL completa
+      var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + completeURL;
+      var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
+      var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
+    
+      // Abrir WhatsApp con el enlace compartido
+      window.open(whatsappURL);
+    });
   });
 }
+
 
 // Función para formatear la fecha
 function formatDate(date) {
