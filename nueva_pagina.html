@@ -17,8 +17,13 @@
     <h2>Datos del Invitado</h2>
     <div id="userData"></div>
   </div>
+  <div class="countdown">
+    <h2>Cuenta Regresiva</h2>
+    <p id="countdownTimer"></p>
+  </div>
   <div class="footer">
     <button id="shareButton">Compartir por WhatsApp</button>
+    <button id="calendarButton">Agregar a Calendario</button>
   </div>
 </div>
 
@@ -31,11 +36,35 @@ window.onload = function() {
   // Decodificar los datos del usuario
   var userData = JSON.parse(decodeURIComponent(userDataString));
 
+  // Calcular el tiempo restante hasta el cumpleaños
+  var birthdayDate = new Date(userData.birthday);
+  birthdayDate.setHours(parseInt(userData.time.split(':')[0]), parseInt(userData.time.split(':')[1]));
+  
+  var endTime = new Date(birthdayDate.getTime() + 2 * 60 * 60 * 1000);
+  userData.endTime = ('0' + endTime.getHours()).slice(-2) + ':' + ('0' + endTime.getMinutes()).slice(-2);
+
   // Mostrar los datos en la página
   var userDataElement = document.getElementById('userData');
   userDataElement.innerHTML = "<p><strong>Nombre:</strong> " + userData.name + "</p>" +
                                "<p><strong>Fecha de Cumpleaños:</strong> " + userData.birthday + "</p>" +
-                               "<p><strong>Hora de Inicio del Cumpleaños:</strong> " + userData.time + "</p>";
+                               "<p><strong>Hora de Inicio del Cumpleaños:</strong> " + userData.time + "</p>" +
+                               "<p><strong>Hora de Finalización del Cumpleaños:</strong> " + userData.endTime + "</p>";
+
+  var today = new Date();
+  birthdayDate.setFullYear(today.getFullYear()); // Asegurarse de que el año del cumpleaños sea el mismo que el año actual
+  
+  if (today > birthdayDate) {
+    birthdayDate.setFullYear(today.getFullYear() + 1); // Si ya pasó el cumpleaños, ajustar al próximo año
+  }
+
+  var timeLeft = birthdayDate.getTime() - today.getTime();
+  var daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+  var hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+
+  // Mostrar el contador
+  var countdownElement = document.getElementById('countdownTimer');
+  countdownElement.textContent = "Faltan " + daysLeft + " días, " + hoursLeft + " horas, y " + minutesLeft + " minutos para el cumpleaños.";
 
   // Botón para compartir por WhatsApp
   var shareButton = document.getElementById('shareButton');
@@ -57,68 +86,32 @@ window.onload = function() {
     // Abrir WhatsApp con el enlace compartido
     window.open(whatsappURL);
   });
-}
-</script>
 
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Invitación de Cumpleaños</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  // Botón para agregar a Calendario
+  var calendarButton = document.getElementById('calendarButton');
+  calendarButton.addEventListener('click', function() {
+    var startTimeString = userData.birthday + 'T' + userData.time;
+    var endTimeString = userData.birthday + 'T' + userData.endTime;
+    var eventTitle = "Cumpleaños de " + userData.name;
 
-<div class="invitation">
-  <div class="header">
-    <h1>¡Estás Invitado!</h1>
-    <p>¡Únete a nosotros para celebrar un día especial!</p>
-  </div>
-  <div class="userData">
-    <h2>Datos del Invitado</h2>
-    <div id="userData"></div>
-  </div>
-  <div class="footer">
-    <button id="shareButton">Compartir por WhatsApp</button>
-  </div>
-</div>
+    var calendarURL = "BEGIN:VCALENDAR\n" +
+                      "VERSION:2.0\n" +
+                      "BEGIN:VEVENT\n" +
+                      "SUMMARY:" + eventTitle + "\n" +
+                      "DTSTART:" + startTimeString + "\n" +
+                      "DTEND:" + endTimeString + "\n" +
+                      "END:VEVENT\n" +
+                      "END:VCALENDAR\n";
 
-<script>
-window.onload = function() {
-  // Obtener los parámetros de la URL
-  var urlParams = new URLSearchParams(window.location.search);
-  var userDataString = urlParams.get('data');
-  
-  // Decodificar los datos del usuario
-  var userData = JSON.parse(decodeURIComponent(userDataString));
+    var blob = new Blob([calendarURL], { type: 'text/calendar' });
+    var calendarLink = window.URL.createObjectURL(blob);
 
-  // Mostrar los datos en la página
-  var userDataElement = document.getElementById('userData');
-  userDataElement.innerHTML = "<p><strong>Nombre:</strong> " + userData.name + "</p>" +
-                               "<p><strong>Fecha de Cumpleaños:</strong> " + userData.birthday + "</p>" +
-                               "<p><strong>Hora de Inicio del Cumpleaños:</strong> " + userData.time + "</p>";
-
-  // Botón para compartir por WhatsApp
-  var shareButton = document.getElementById('shareButton');
-  shareButton.addEventListener('click', function() {
-    // Obtener la URL base de la página actual
-    var baseURL = window.location.href.split('?')[0];
-    
-    // Codificar los datos del usuario
-    var encodedUserData = encodeURIComponent(JSON.stringify(userData));
-    
-    // Generar la URL completa con los datos codificados
-    var completeURL = baseURL + '?data=' + encodedUserData;
-    
-    // Generar el enlace compartido por WhatsApp
-    var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + completeURL;
-    var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
-    var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
-    
-    // Abrir WhatsApp con el enlace compartido
-    window.open(whatsappURL);
+    var a = document.createElement('a');
+    a.href = calendarLink;
+    a.download = eventTitle + '.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   });
 }
 </script>
