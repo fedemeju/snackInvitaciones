@@ -1,32 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invitación de Cumpleaños</title>
 <link rel="stylesheet" href="styles.css">
 </head>
-   <!-- font awesome -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@500&family=Russo+One&display=swap" rel="stylesheet">
-<body>
 
+<div class="relleno"></div>
+
+<div class="image-container">
+  <img src="snacky.png" alt="Imagen de invitación" class="invitation-image">
+</div>
 <div class="invitation">
+  
   <div class="header">
-    <h1>¡Estás Invitado!</h1>
   </div>
   <div class="userData">
     <div id="userData"></div>
   </div>
-  <div>
-    <h4>En Snack Bowling</h4>
-    <p>Avenida del libertador 13054 - Martinez</p>
+  <div class="details">
+    <h4> ¡Snack Bowling!</h4>
+    <p><strong>Dirección:</strong> Avenida del Libertador 13054, Martinez</p>
   </div>
   <div class="countdown">
-    <h2>¿Cuanto Falta?</h2>
+    <h2>¿Cuánto Falta?</h2>
     <p id="countdownTimer"></p>
   </div>
   <div class="footers">
@@ -35,28 +33,16 @@
 </div>
 
 <footer class="footer">
-  <div class="footer__redes"> 
-    <a href="https://instagram.com/snackbowling" target="_blank" class="logoFooter">
-      <i class="fa-brands fa-instagram logo__footer"></i>
-    </a>  
-    <a href="https://facebook.com/snackbowling" target="_blank" class="logoFooter">
-      <i class="fa-brands fa-facebook logo__footer"></i>
-    </a>  
-    <a href="https://www.linkedin.com/company/71763114/" target="_blank" class="logoFooter">
-      <i class="fa-brands fa-linkedin logo__footer"></i>
-    </a>  
+  <div class="social-media">
+    <a href="https://instagram.com/snackbowling" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://facebook.com/snackbowling" target="_blank"><i class="fab fa-facebook"></i></a>
+    <a href="https://www.linkedin.com/company/71763114/" target="_blank"><i class="fab fa-linkedin"></i></a>
   </div>
-  <div class="footer__info ">
-        <a href="https://www.google.com/maps/place/Snack+Bowling+%26+Restaurant/@-34.4907,-58.4855,15z/data=!4m2!3m1!1s0x0:0x4265a336265d66ed?sa=X&ved=2ahUKEwie0orZl7j5AhV4BLkGHdBvBt8Q_BJ6BAhzEAU" target="blanck">
-          <i class="fa-solid fa-location-dot" style="color: white;"></i>
-          Avenida del libertador 13054 - Martinez</a>            
-        <a href="tel:47928009">
-          <i class="fa-sharp fa-solid fa-phone"></i>
-          4792-8009
-        </a>
-    </div>  
+  <div class="contact-info">
+    <p><i class="fas fa-map-marker-alt"></i> Avenida del Libertador 13054 - Martinez</p>
+    <p><i class="fas fa-phone"></i> 4792-8009</p>
+  </div>
 </footer>
-
 
 <script>
 window.onload = function() {
@@ -81,12 +67,11 @@ window.onload = function() {
   var userDataElement = document.getElementById('userData');
   userDataElement.innerHTML = "<h3>" + userData.name + "</h3>" +
                                "<h4><strong>¡Te ha invitado a su cumple!</strong></h4>" +
-                               "<h5>El día " + formatDate(startDate) + " de " + formattedStartTime + " hasta " + formattedEndTime + "</h5>";
+                               "<h5>El día " + formatDate(startDate) + " de " + formattedStartTime + " hasta " + formattedEndTime + " en: </h5>";
 
-// Calcular el tiempo restante hasta el cumpleaños
-var today = new Date();
+  // Calcular el tiempo restante hasta el cumpleaños
+  var today = new Date();
   startDate.setFullYear(today.getFullYear()); // Asegurarse de que el año del cumpleaños sea el mismo que el año actual
-  
   if (today > startDate) {
     startDate.setFullYear(today.getFullYear() + 1); // Si ya pasó el cumpleaños, ajustar al próximo año
   }
@@ -95,10 +80,12 @@ var today = new Date();
   var daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
   var hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   var minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-
+  
   // Mostrar el contador
   var countdownElement = document.getElementById('countdownTimer');
-  countdownElement.textContent = "Faltan " + daysLeft + " días, " + hoursLeft + " horas, y " + minutesLeft + " minutos para el cumpleaños.";
+  countdownElement.textContent = "Faltan " + daysLeft + " días, " + hoursLeft + " horas, y " + minutesLeft + " minutos para el cumpleaños";
+
+  + ".";
 
   // Botón para compartir por WhatsApp
   var shareButton = document.getElementById('shareButton');
@@ -112,32 +99,31 @@ var today = new Date();
     // Generar la URL completa con los datos codificados
     var completeURL = baseURL + '?data=' + encodedUserData;
 
-    // Acortar la URL utilizando is.gd
-    var isgdURL = 'https://is.gd/create.php?format=json&url=' + encodeURIComponent(completeURL);
-    
-    fetch(isgdURL)
-    .then(response => response.json())
-    .then(data => {
-      var shortURL = data.shorturl;
+    // Acortar la URL utilizando un servicio de acortamiento
+    var shortenerAPI = 'https://api.shrtco.de/v2/shorten?url=' + encodeURIComponent(completeURL);
+    fetch(shortenerAPI)
+      .then(response => response.json())
+      .then(data => {
+        var shortURL = data.result.short_link;
 
-      // Generar el enlace compartido por WhatsApp
-      var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + shortURL;
-      var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
-      var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
-    
-      // Abrir WhatsApp con el enlace compartido
-      window.open(whatsappURL);
-    })
-    .catch(error => {
-      console.error('Error al acortar la URL:', error);
-      // Si hay un error al acortar la URL, simplemente compartir la URL completa
-      var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + completeURL;
-      var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
-      var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
-    
-      // Abrir WhatsApp con el enlace compartido
-      window.open(whatsappURL);
-    });
+        // Generar el enlace compartido por WhatsApp
+        var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + shortURL;
+        var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
+        var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
+      
+        // Abrir WhatsApp con el enlace compartido
+        window.open(whatsappURL);
+      })
+      .catch(error => {
+        console.error('Error al acortar la URL:', error);
+        // Si hay un error al acortar la URL, simplemente compartir la URL completa
+        var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + completeURL;
+        var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
+        var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
+      
+        // Abrir WhatsApp con el enlace compartido
+        window.open(whatsappURL);
+      });
   });
 }
 
@@ -148,10 +134,12 @@ function formatDate(date) {
   var year = date.getFullYear();
   return day + '/' + month + '/' + year;
 }
+
 </script>
 
-      <!-- fontawesome -->
-      <script src="https://kit.fontawesome.com/8cced7e539.js" crossorigin="anonymous"></script>
+<!-- Agregar la biblioteca Font Awesome -->
+<script src="https://kit.fontawesome.com/8cced7e539.js" crossorigin="anonymous"></script>
 
 </body>
 </html>
+

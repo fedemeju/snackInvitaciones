@@ -4,6 +4,7 @@ html {
   box-sizing: border-box;
   overflow-x: hidden;
   width: 100vw;
+  font-family: "Oswald", sans-serif;
 }
 
 .anton-regular {
@@ -33,12 +34,11 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #ffffff;
 }
 
 .invitation {
   max-width: 400px;
-  margin: 50px auto;
   background-color: #fff;
   border-radius: 10px;
   padding: 20px;
@@ -82,6 +82,7 @@ body {
   margin: 0;
   padding: 0;
   width: 100vw;
+  overflow-x: hidden;
 }
 
 .container {
@@ -113,8 +114,9 @@ h3{
   
 }
 h4{
-  font-size: 25px;
+  font-size: 35px;
   color: #f09724;
+  font-weight: bold;
 }
 input[type="text"],
 input[type="date"],
@@ -163,9 +165,7 @@ button:hover {
   color: #666;
   text-align: center;
 }
-.invitation h2{
-  
-}
+
 .userData h2 {
   font-size: 20px;
   margin-bottom: 10px;
@@ -198,14 +198,6 @@ h5{
       flex-direction: column;
 
 }
-.footer  a{
-          text-decoration: none;
-          font-size: 1.1rem;
-          color: #fff;
-      }
- .footer a:nth-child(2){
-          font-size: 1.3rem;
-      }
 
   .footer__redes{
       font-size: 30px;
@@ -224,3 +216,57 @@ h5{
               }
       }
 
+      .footer {
+        background-color:#ff7300;
+        color: #fff;
+        text-align: center;
+        padding: 20px 0;
+        bottom: 0;
+        width: 100%;
+        z-index: 999;
+      }
+      
+      .footer a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 10px;
+      }
+      
+      .footer a:hover {
+        text-decoration: underline;
+      }
+      .image-container {
+        display: flex;
+        flex-direction: column;
+        width: 100vw;
+        height: 10vh;
+        align-items: center;
+
+      }
+
+      .invitation-image {
+        display: block;
+        margin: 0 auto;
+        width: 200px; /* Ajusta el tamaño según sea necesario */
+        height: 200px;
+        border-radius: 50%; /* Hace que la imagen sea redonda */
+        overflow:auto; /* Oculta cualquier parte de la imagen que se salga del radio */
+        position: absolute;
+        top: 25vh;
+;
+      }
+      
+      .invitation-image img {
+        width: 100%; /* Ajusta el tamaño de la imagen para que se ajuste al círculo */
+        height: auto;
+      }
+
+      .relleno{
+        height: 40vh;
+        background-image: url(cumple.jpg);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        box-shadow: 7px 7px 9px -5px rgba(94,94,94,0.67);
+
+      }
