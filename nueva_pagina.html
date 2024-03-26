@@ -18,7 +18,7 @@
     <div id="userData"></div>
   </div>
   <div class="footer">
-    <button id="shareButton">Compartir por WhatsApp</button>
+    <button id="shareButton">Compartir</button>
   </div>
 </div>
 
@@ -31,24 +31,19 @@ window.onload = function() {
   // Decodificar los datos del usuario
   var userData = JSON.parse(decodeURIComponent(userDataString));
 
-  // Calcular la hora de finalización del cumpleaños (2 horas después de la hora de inicio)
-  var startTime = new Date("2000-01-01T" + userData.time + ":00");
-  var endTime = new Date(startTime.getTime() + 2 * 60 * 60 * 1000);
-  var endTimeFormatted = ('0' + endTime.getHours()).slice(-2) + ':' + ('0' + endTime.getMinutes()).slice(-2);
-
   // Mostrar los datos en la página
   var userDataElement = document.getElementById('userData');
   userDataElement.innerHTML = "<p><strong>Nombre:</strong> " + userData.name + "</p>" +
                                "<p><strong>Fecha de Cumpleaños:</strong> " + userData.birthday + "</p>" +
-                               "<p><strong>Hora de Inicio del Cumpleaños:</strong> " + userData.time + "</p>" +
-                               "<p><strong>Hora de Finalización del Cumpleaños:</strong> " + endTimeFormatted + "</p>";
+                               "<p><strong>Hora de Inicio del Cumpleaños:</strong> " + userData.time + "</p>";
 
-  // Botón para compartir por WhatsApp
+  // Botón para compartir
   var shareButton = document.getElementById('shareButton');
   shareButton.addEventListener('click', function() {
-    var encodedUserData = encodeURIComponent(JSON.stringify(userData));
-    var pageURLWithData = "whatsapp://send?text=" + encodeURIComponent(window.location.href.split('?')[0] + '?data=' + encodedUserData);
-    window.open(pageURLWithData);
+    var sharedText = "¡Estás invitado al cumpleaños de " + userData.name + "! Fecha: " + userData.birthday + ", Hora: " + userData.time;
+    var encodedSharedText = encodeURIComponent(sharedText);
+    var whatsappURL = "whatsapp://send?text=" + encodedSharedText;
+    window.open(whatsappURL);
   });
 }
 </script>
