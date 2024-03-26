@@ -112,25 +112,13 @@ var today = new Date();
     // Generar la URL completa con los datos codificados
     var completeURL = baseURL + '?data=' + encodedUserData;
 
-    // Acortar la URL utilizando Bitly
-    var accessToken = 'TU_ACCESS_TOKEN_DE_BITLY';
-    var groupGuid = 'TU_GROUP_GUID_DE_BITLY'; // Puedes usar 'default' si no tienes grupos
-    var bitlyURL = 'https://api-ssl.bitly.com/v4/shorten';
+    // Acortar la URL utilizando is.gd
+    var isgdURL = 'https://is.gd/create.php?format=simple&url=' + encodeURIComponent(completeURL);
     
-    fetch(bitlyURL, {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer ' + accessToken,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        group_guid: groupGuid,
-        long_url: completeURL
-      })
-    })
-    .then(response => response.json())
+    fetch(isgdURL)
+    .then(response => response.text())
     .then(data => {
-      var shortURL = data.link;
+      var shortURL = data.trim();
 
       // Generar el enlace compartido por WhatsApp
       var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + shortURL;
