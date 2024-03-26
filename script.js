@@ -34,6 +34,3 @@ document.getElementById('userForm').addEventListener('submit', function(event) {
 var today = new Date().toISOString().split('T')[0];
 document.getElementById('birthday').setAttribute('min', today);
 
-// Establecer el paso del selector de tiempo a 5 minutos
-document.getElementById('time').setAttribute('step', '300');
-
