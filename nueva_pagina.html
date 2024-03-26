@@ -6,26 +6,57 @@
 <title>Invitación de Cumpleaños</title>
 <link rel="stylesheet" href="styles.css">
 </head>
+   <!-- font awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@500&family=Russo+One&display=swap" rel="stylesheet">
 <body>
 
 <div class="invitation">
   <div class="header">
     <h1>¡Estás Invitado!</h1>
-    <p>¡Únete a nosotros para celebrar un día especial!</p>
   </div>
   <div class="userData">
-    <h2>Datos del Invitado</h2>
     <div id="userData"></div>
   </div>
+  <div>
+    <h4>En Snack Bowling</h4>
+    <p>Avenida del libertador 13054 - Martinez</p>
+  </div>
   <div class="countdown">
-    <h2>Cuenta Regresiva</h2>
+    <h2>¿Cuanto Falta?</h2>
     <p id="countdownTimer"></p>
   </div>
-  <div class="footer">
+  <div class="footers">
     <button id="shareButton">Compartir por WhatsApp</button>
-    <button id="calendarButton">Agregar a Calendario</button>
   </div>
 </div>
+
+<footer class="footer">
+  <div class="footer__redes"> 
+    <a href="https://instagram.com/snackbowling" target="_blank" class="logoFooter">
+      <i class="fa-brands fa-instagram logo__footer"></i>
+    </a>  
+    <a href="https://facebook.com/snackbowling" target="_blank" class="logoFooter">
+      <i class="fa-brands fa-facebook logo__footer"></i>
+    </a>  
+    <a href="https://www.linkedin.com/company/71763114/" target="_blank" class="logoFooter">
+      <i class="fa-brands fa-linkedin logo__footer"></i>
+    </a>  
+  </div>
+  <div class="footer__info ">
+        <a href="https://www.google.com/maps/place/Snack+Bowling+%26+Restaurant/@-34.4907,-58.4855,15z/data=!4m2!3m1!1s0x0:0x4265a336265d66ed?sa=X&ved=2ahUKEwie0orZl7j5AhV4BLkGHdBvBt8Q_BJ6BAhzEAU" target="blanck">
+          <i class="fa-solid fa-location-dot" style="color: white;"></i>
+          Avenida del libertador 13054 - Martinez</a>            
+        <a href="tel:47928009">
+          <i class="fa-sharp fa-solid fa-phone"></i>
+          4792-8009
+        </a>
+    </div>  
+</footer>
+
 
 <script>
 window.onload = function() {
@@ -36,28 +67,31 @@ window.onload = function() {
   // Decodificar los datos del usuario
   var userData = JSON.parse(decodeURIComponent(userDataString));
 
-  // Calcular el tiempo restante hasta el cumpleaños
-  var birthdayDate = new Date(userData.birthday);
-  birthdayDate.setHours(parseInt(userData.time.split(':')[0]), parseInt(userData.time.split(':')[1]));
-  
-  var endTime = new Date(birthdayDate.getTime() + 2 * 60 * 60 * 1000);
-  userData.endTime = ('0' + endTime.getHours()).slice(-2) + ':' + ('0' + endTime.getMinutes()).slice(-2);
+  // Formatear la fecha de inicio y fin
+  var startDate = new Date(userData.birthday);
+  var endDate = new Date(userData.birthday);
+  startDate.setHours(parseInt(userData.time.split(':')[0]), parseInt(userData.time.split(':')[1]));
+  endDate.setHours(startDate.getHours() + 2, parseInt(userData.time.split(':')[1]));
+
+  // Formatear las horas
+  var formattedStartTime = ('0' + startDate.getHours()).slice(-2) + ':' + ('0' + startDate.getMinutes()).slice(-2);
+  var formattedEndTime = ('0' + endDate.getHours()).slice(-2) + ':' + ('0' + endDate.getMinutes()).slice(-2);
 
   // Mostrar los datos en la página
   var userDataElement = document.getElementById('userData');
-  userDataElement.innerHTML = "<p><strong>Nombre:</strong> " + userData.name + "</p>" +
-                               "<p><strong>Fecha de Cumpleaños:</strong> " + userData.birthday + "</p>" +
-                               "<p><strong>Hora de Inicio del Cumpleaños:</strong> " + userData.time + "</p>" +
-                               "<p><strong>Hora de Finalización del Cumpleaños:</strong> " + userData.endTime + "</p>";
+  userDataElement.innerHTML = "<h3>" + userData.name + "</h3>" +
+                               "<h4><strong>¡Te ha invitado a su cumple!</strong></h4>" +
+                               "<h5>El día " + formatDate(startDate) + " de " + formattedStartTime + " hasta " + formattedEndTime + "</h5>";
 
+  // Calcular el tiempo restante hasta el cumpleaños
   var today = new Date();
-  birthdayDate.setFullYear(today.getFullYear()); // Asegurarse de que el año del cumpleaños sea el mismo que el año actual
+  startDate.setFullYear(today.getFullYear()); // Asegurarse de que el año del cumpleaños sea el mismo que el año actual
   
-  if (today > birthdayDate) {
-    birthdayDate.setFullYear(today.getFullYear() + 1); // Si ya pasó el cumpleaños, ajustar al próximo año
+  if (today > startDate) {
+    startDate.setFullYear(today.getFullYear() + 1); // Si ya pasó el cumpleaños, ajustar al próximo año
   }
 
-  var timeLeft = birthdayDate.getTime() - today.getTime();
+  var timeLeft = startDate.getTime() - today.getTime();
   var daysLeft = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
   var hoursLeft = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   var minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
@@ -86,35 +120,19 @@ window.onload = function() {
     // Abrir WhatsApp con el enlace compartido
     window.open(whatsappURL);
   });
+}
 
-  // Botón para agregar a Calendario
-  var calendarButton = document.getElementById('calendarButton');
-  calendarButton.addEventListener('click', function() {
-    var startTimeString = userData.birthday + 'T' + userData.time;
-    var endTimeString = userData.birthday + 'T' + userData.endTime;
-    var eventTitle = "Cumpleaños de " + userData.name;
-
-    var calendarURL = "BEGIN:VCALENDAR\n" +
-                      "VERSION:2.0\n" +
-                      "BEGIN:VEVENT\n" +
-                      "SUMMARY:" + eventTitle + "\n" +
-                      "DTSTART:" + startTimeString + "\n" +
-                      "DTEND:" + endTimeString + "\n" +
-                      "END:VEVENT\n" +
-                      "END:VCALENDAR\n";
-
-    var blob = new Blob([calendarURL], { type: 'text/calendar' });
-    var calendarLink = window.URL.createObjectURL(blob);
-
-    var a = document.createElement('a');
-    a.href = calendarLink;
-    a.download = eventTitle + '.ics';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  });
+// Función para formatear la fecha
+function formatDate(date) {
+  var day = ('0' + date.getDate()).slice(-2);
+  var month = ('0' + (date.getMonth() + 1)).slice(-2);
+  var year = date.getFullYear();
+  return day + '/' + month + '/' + year;
 }
 </script>
+
+      <!-- fontawesome -->
+      <script src="https://kit.fontawesome.com/8cced7e539.js" crossorigin="anonymous"></script>
 
 </body>
 </html>
