@@ -101,6 +101,8 @@ body {
 
 #userForm{
   padding-top: 25px;
+  font-family: "Madimi One", sans-serif; 
+
 }
 
 
@@ -122,12 +124,13 @@ h3{
   text-transform: capitalize;
   padding: 0;
   font-family: "Madimi One", sans-serif; 
+  margin: 0;
 }
 h4{
   font-size: 40px;
   color: #f09724;
   font-family: "Permanent Marker", cursive;
-  padding-top: 5px;
+  margin: 0;
 }
 input[type="text"],
 input[type="date"],
@@ -152,7 +155,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #f09724;
 }
 
 .invitation {

@@ -13,8 +13,10 @@
 
 <div class="relleno"></div>
 
-<div class="image-container">
-  <img src="snacky.png" alt="Imagen de invitación" class="invitation-image">
+<div >
+  <a class="image-container" href="https://snackbowling.netlify.app/pages/cumples"> 
+    <img src="snacky.png" alt="Imagen de invitación" class="invitation-image">
+  </a>
 </div>
 <div class="invitation">
   
@@ -24,6 +26,7 @@
     <div id="userData"></div>
   </div>
   <div class="details">
+
     <h4> ¡Snack Bowling!</h4>
   
     <h6>Dirección: Avenida del Libertador 13054, Martinez</h6>
@@ -62,10 +65,13 @@
   <div class="confetti-button" style="display: none;"></div>
 
   <script>
+    
+    
     // Define una función para lanzar confeti automáticamente con más confeti
     function lanzarConfetiAutomatico() {
       // Configura las opciones de la animación
       const opcionesConfeti = {
+        emojis: ['🎉', '❤️', '🌟', '🎈', '😊'] ,// Ingresa otros emojis aquí
         particleCount: 200, // Aumenta la cantidad de confeti
         spread: 180, // Aumenta el rango de dispersión
         colors: ['#ff0000', '#00ff00', '#0000ff'] // Personaliza los colores del confeti
@@ -104,7 +110,7 @@ window.onload = function() {
   // Mostrar los datos en la página
   var userDataElement = document.getElementById('userData');
   userDataElement.innerHTML = "<h3>" + userData.name + "</h3>" +
-                               "<h4><strong>¡Te ha invitado a su cumple!</strong></h4>" +
+                               "<h4><strong>¡Te ha invitado a su cumple!</strong></h4>" + "<h4>🎳​🎉​🎂​</h4>" +
                                "<h5>Te espero el día <strong>" + formatDate(startDate) + " </strong> de " + formattedStartTime + " hasta " + formattedEndTime + " en: </h5>";
 
   // Calcular el tiempo restante hasta el cumpleaños
