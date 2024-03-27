@@ -1,10 +1,10 @@
 
+
 html {
   scroll-behavior: smooth;
   box-sizing: border-box;
   overflow-x: hidden;
   width: 100vw;
-  font-family: "Oswald", sans-serif;
 }
 
 .anton-regular {
@@ -61,7 +61,6 @@ button:hover {
 
 .userData h2 {
   font-size: 20px;
-  margin-bottom: 10px;
 }
 
 .userData p {
@@ -77,29 +76,39 @@ button:hover {
 }
 
 body {
-  font-family: "Oswald", sans-serif;
-  background-color: #f2f2f2;
+  background-color: #fdf0e8;
   margin: 0;
   padding: 0;
   width: 100vw;
   overflow-x: hidden;
 }
-
 .container {
   max-width: 100%;
   padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 75vh;
 }
 
 .container h2 {
   text-align: center;
+  font-size: 35px;
+  color: #ff7300;
+  font-weight: bolder;
+  height: 0px;
 }
+
+#userForm{
+  padding-top: 25px;
+}
+
 
 .form-group {
   margin-bottom: 15px;
   max-width: 300px;
+  font-weight: bolder;
+  font-size: 18px;
 }
 
 label {
@@ -111,12 +120,14 @@ h3{
   text-align: center;
   font-size: 50px;
   text-transform: capitalize;
-  
+  padding: 0;
+  font-family: "Madimi One", sans-serif; 
 }
 h4{
-  font-size: 35px;
+  font-size: 40px;
   color: #f09724;
-  font-weight: bold;
+  font-family: "Permanent Marker", cursive;
+  padding-top: 5px;
 }
 input[type="text"],
 input[type="date"],
@@ -165,14 +176,32 @@ button:hover {
   color: #666;
   text-align: center;
 }
+.countdown h2{
+  color: #f09724;
+  font-weight: bold;
+  font-family: "Permanent Marker", cursive;
+  font-size: 35px ;
+}
+.countdown p{
+  font-family: "Madimi One", sans-serif;
+  font-size: 20px;
 
+}
 .userData h2 {
   font-size: 20px;
-  margin-bottom: 10px;
+  
 }
 h5{
-  font-size: 20px;
-  font-weight: 300;
+  font-size: 25px;
+  height: 10px;
+  padding-bottom: 8px;
+  font-family: "Madimi One", sans-serif;
+
+}
+h6{
+  font-size: 15px;
+  height: 10px;
+  font-family: "Madimi One", sans-serif;
 }
 
 .userData p {
@@ -192,6 +221,8 @@ h5{
   text-align: center;
   width: 100vw;
   align-items: center;
+  font-family: "Anton", sans-serif;
+
 }
 .footer__info{
       display: flex;
@@ -214,6 +245,7 @@ h5{
                &:hover{
                   transform: rotate(360deg);
               }
+          color: #272727;
       }
 
       .footer {
@@ -230,6 +262,7 @@ h5{
         color: #fff;
         text-decoration: none;
         margin: 0 10px;
+        font-size: 25px;
       }
       
       .footer a:hover {
@@ -241,7 +274,9 @@ h5{
         width: 100vw;
         height: 10vh;
         align-items: center;
-
+      }
+      .maps{
+        text-decoration: none;
       }
 
       .invitation-image {
@@ -270,3 +305,16 @@ h5{
         box-shadow: 7px 7px 9px -5px rgba(94,94,94,0.67);
 
       }
+
+   
+      .invitation-image2 {
+  
+        display: block;
+        margin: 0 auto;
+        width: 100px; /* Ajusta el tamaño según sea necesario */
+        border-radius: 50%; /* Hace que la imagen sea redonda */
+        overflow:auto; /* Oculta cualquier parte de la imagen que se salga del radio */
+  
+      }
+
+  

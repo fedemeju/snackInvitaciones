@@ -6,6 +6,10 @@
 <title>Invitación de Cumpleaños</title>
 <link rel="stylesheet" href="styles.css">
 </head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Madimi+One&family=Oswald:wght@500&family=Permanent+Marker&family=Russo+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Madimi+One&family=Oswald:wght@500&family=Russo+One&display=swap" rel="stylesheet">
 
 <div class="relleno"></div>
 
@@ -21,7 +25,13 @@
   </div>
   <div class="details">
     <h4> ¡Snack Bowling!</h4>
-    <p><strong>Dirección:</strong> Avenida del Libertador 13054, Martinez</p>
+  
+    <h6>Dirección: Avenida del Libertador 13054, Martinez</h6>
+  </div>
+  <div class="footers">
+    <a  class="maps" href="https://www.google.com/maps/dir//Av.+del+Libertador+13054,+Mart%C3%ADnez,+Provincia+de+Buenos+Aires/@-34.4906768,-58.5679107,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x95bcb174c35f254f:0x4265a336265d66ed!2m2!1d-58.4852119!2d-34.4905805?entry=ttu">
+      <button>¿Como llegar?</button>
+    </a>
   </div>
   <div class="countdown">
     <h2>¿Cuánto Falta?</h2>
@@ -43,6 +53,34 @@
     <p><i class="fas fa-phone"></i> 4792-8009</p>
   </div>
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- Este div con la clase "confetti-button" es solo para la referencia del selector -->
+  <div class="confetti-button" style="display: none;"></div>
+
+  <script>
+    // Define una función para lanzar confeti automáticamente con más confeti
+    function lanzarConfetiAutomatico() {
+      // Configura las opciones de la animación
+      const opcionesConfeti = {
+        particleCount: 200, // Aumenta la cantidad de confeti
+        spread: 180, // Aumenta el rango de dispersión
+        colors: ['#ff0000', '#00ff00', '#0000ff'] // Personaliza los colores del confeti
+      };
+
+      // Llama a la función confetti() con las opciones configuradas
+      confetti(opcionesConfeti);
+    }
+
+    // Agrega un event listener para cuando el documento esté completamente cargado
+    document.addEventListener('DOMContentLoaded', function() {
+      // Llama a la función para lanzar confeti automáticamente
+      lanzarConfetiAutomatico();
+    });
+  </script>
 
 <script>
 window.onload = function() {
@@ -67,7 +105,7 @@ window.onload = function() {
   var userDataElement = document.getElementById('userData');
   userDataElement.innerHTML = "<h3>" + userData.name + "</h3>" +
                                "<h4><strong>¡Te ha invitado a su cumple!</strong></h4>" +
-                               "<h5>El día " + formatDate(startDate) + " de " + formattedStartTime + " hasta " + formattedEndTime + " en: </h5>";
+                               "<h5>Te espero el día <strong>" + formatDate(startDate) + " </strong> de " + formattedStartTime + " hasta " + formattedEndTime + " en: </h5>";
 
   // Calcular el tiempo restante hasta el cumpleaños
   var today = new Date();
