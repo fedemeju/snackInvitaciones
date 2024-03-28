@@ -300,6 +300,8 @@ h6{
         overflow:auto; /* Oculta cualquier parte de la imagen que se salga del radio */
         position: absolute;
         top: 25vh;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 ;
       }
       
