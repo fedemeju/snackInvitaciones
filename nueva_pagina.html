@@ -16,7 +16,7 @@
 
 <div >
   <a class="image-container" href="https://snackbowling.netlify.app/pages/cumples"> 
-    <img src="snacky.png" alt="Imagen de invitación" class="invitation-image scale-in-center ">
+    <img src="snacky.png"  alt="Imagen de invitación" class="invitation-image scale-in-center ">
   </a>
 </div>
 <div class="invitation">
@@ -45,7 +45,9 @@
     
     <button class="heartbeat" id="shareButton">Compartir por WhatsApp</button>
   </div>
-  <button id="addToCalendarButton">Agregar al Calendario</button>
+</div>
+<div class="footers">
+  <button id="confettiButton" style="none">🎉</button>
 </div>
 
 
@@ -91,6 +93,29 @@
       // Llama a la función para lanzar confeti automáticamente
       lanzarConfetiAutomatico();
     });
+
+    // Obtener el botón de lanzar confeti por su ID
+var confettiButton = document.getElementById('confettiButton');
+
+// Agregar un event listener para el clic en el botón
+confettiButton.addEventListener('click', function() {
+    // Llamar a la función para lanzar confeti
+    lanzarConfeti();
+});
+
+// Función para lanzar confeti
+function lanzarConfeti() {
+    // Configurar las opciones de la animación de confeti
+    const opcionesConfeti = {
+        emojis: ['🎉', '❤️', '🌟', '🎈', '😊'], // Ingresa otros emojis aquí
+        particleCount: 200, // Aumenta la cantidad de confeti
+        spread: 180, // Aumenta el rango de dispersión
+        colors: ['#ff0000', '#00ff00', '#0000ff'] // Personaliza los colores del confeti
+    };
+
+    // Llamar a la función confetti() con las opciones configuradas
+    confetti(opcionesConfeti);
+}
   </script>
 
 <script>
@@ -115,7 +140,7 @@ window.onload = function() {
   // Mostrar los datos en la página
   var userDataElement = document.getElementById('userData');
   userDataElement.innerHTML = "<h3>" + userData.name + "</h3>" +
-                               "<h4><strong>¡Te ha invitado a su cumple!</strong></h4>" + "<h4>🎳​🎉​🎂​</h4>" +
+                               "<h4><strong>¡Te ha invitado a su cumple!</strong></h4>" + "<h4>🎳​​🎂​</h4>" +
                                "<h5>Te espero el día <strong>" + formatDate(startDate) + " </strong> de " + formattedStartTime + " hasta " + formattedEndTime + " en: </h5>";
 
   // Calcular el tiempo restante hasta el cumpleaños
@@ -191,33 +216,6 @@ function formatDate(date) {
   return day + '/' + month + '/' + year;
 }
 
-// Agregar event listener al botón addToCalendarButton
-document.getElementById('addToCalendarButton').addEventListener('click', function() {
-  // Obtener los datos del usuario
-  var userDataString = localStorage.getItem('userData');
-  var userData = JSON.parse(userDataString);
-
-
-
-  // Crear el título del evento
-  var eventTitle = "Cumpleaños de " + userData.name;
-
-  // Crear la fecha y hora de inicio y fin del evento
-  var startDate = new Date(userData.birthday);
-  var endDate = new Date(userData.birthday);
-  startDate.setHours(parseInt(userData.time.split(':')[0]), parseInt(userData.time.split(':')[1]));
-  endDate.setHours(startDate.getHours() + 2, parseInt(userData.time.split(':')[1]));
-
-  // Formatear la fecha y hora en el formato requerido para el enlace del calendario
-  var startFormatted = startDate.toISOString().replace(/-|:|\.\d+/g, '');
-  var endFormatted = endDate.toISOString().replace(/-|:|\.\d+/g, '');
-
-  // Crear el enlace para agregar el evento al calendario de Google
-  var googleCalendarURL = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(eventTitle) + '&dates=' + startFormatted + '/' + endFormatted;
-
-  // Abrir el enlace en una nueva pestaña
-  window.open(googleCalendarURL);
-});
 
 // Función para acortar la URL usando Bitly
 function shortenURL(longURL, accessToken, callback) {
