@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Invitación de Cumpleaños</title>
+<title>Invitación de Cumpleaños </title>
 <link rel="stylesheet" href="styles.css">
 </head>
+<link rel="shortcut icon" href="snacky.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Madimi+One&family=Oswald:wght@500&family=Permanent+Marker&family=Russo+One&display=swap" rel="stylesheet">
@@ -41,9 +42,13 @@
     <p id="countdownTimer"></p>
   </div>
   <div class="footers">
+    
     <button class="heartbeat" id="shareButton">Compartir por WhatsApp</button>
   </div>
+  <button id="addToCalendarButton">Agregar al Calendario</button>
 </div>
+
+
 
 <footer class="footer">
   <div class="social-media">
@@ -175,6 +180,7 @@ window.onload = function() {
       }
     });
   });
+  
 }
 
 // Función para formatear la fecha
@@ -184,6 +190,34 @@ function formatDate(date) {
   var year = date.getFullYear();
   return day + '/' + month + '/' + year;
 }
+
+// Agregar event listener al botón addToCalendarButton
+document.getElementById('addToCalendarButton').addEventListener('click', function() {
+  // Obtener los datos del usuario
+  var userDataString = localStorage.getItem('userData');
+  var userData = JSON.parse(userDataString);
+
+
+
+  // Crear el título del evento
+  var eventTitle = "Cumpleaños de " + userData.name;
+
+  // Crear la fecha y hora de inicio y fin del evento
+  var startDate = new Date(userData.birthday);
+  var endDate = new Date(userData.birthday);
+  startDate.setHours(parseInt(userData.time.split(':')[0]), parseInt(userData.time.split(':')[1]));
+  endDate.setHours(startDate.getHours() + 2, parseInt(userData.time.split(':')[1]));
+
+  // Formatear la fecha y hora en el formato requerido para el enlace del calendario
+  var startFormatted = startDate.toISOString().replace(/-|:|\.\d+/g, '');
+  var endFormatted = endDate.toISOString().replace(/-|:|\.\d+/g, '');
+
+  // Crear el enlace para agregar el evento al calendario de Google
+  var googleCalendarURL = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(eventTitle) + '&dates=' + startFormatted + '/' + endFormatted;
+
+  // Abrir el enlace en una nueva pestaña
+  window.open(googleCalendarURL);
+});
 
 // Función para acortar la URL usando Bitly
 function shortenURL(longURL, accessToken, callback) {
@@ -212,10 +246,13 @@ function shortenURL(longURL, accessToken, callback) {
       callback(null); // Llamar al callback con valor nulo en caso de error
     });
 }
+
+
 </script>
 
 <!-- Agregar la biblioteca Font Awesome -->
 <script src="https://kit.fontawesome.com/8cced7e539.js" crossorigin="anonymous"></script>
+<script src="script.js"></script>
 
 </body>
 </html>
