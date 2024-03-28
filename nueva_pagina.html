@@ -115,9 +115,13 @@ window.onload = function() {
 
   // Calcular el tiempo restante hasta el cumpleaños
   var today = new Date();
+  var yaPaso = false;
   startDate.setFullYear(today.getFullYear()); // Asegurarse de que el año del cumpleaños sea el mismo que el año actual
   if (today > startDate) {
+    startDate.setFullYear(today.getFullYear() + 1); // Si ya pasó el cumpleaños,
+
     startDate.setFullYear(today.getFullYear() + 1); // Si ya pasó el cumpleaños, ajustar al próximo año
+    yaPaso = true;
   }
 
   var timeLeft = startDate.getTime() - today.getTime();
@@ -126,8 +130,15 @@ window.onload = function() {
   var minutesLeft = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
   
   // Mostrar el contador
-  var countdownElement = document.getElementById('countdownTimer');
-  countdownElement.textContent = "Faltan " + daysLeft + " días, " + hoursLeft + " horas, y " + minutesLeft + " minutos para el cumpleaños";
+
+  if(yaPaso == false){
+    var countdownElement = document.getElementById('countdownTimer');
+    countdownElement.textContent = "Faltan " + daysLeft + " días, " + hoursLeft + " horas, y " + minutesLeft + " minutos para el cumpleaños";
+  }
+  else{
+    var countdownElement = document.getElementById('countdownTimer');
+    countdownElement.textContent = "¡Llego el Día!";
+  }
 
   + ".";
 
@@ -143,23 +154,17 @@ window.onload = function() {
     // Generar la URL completa con los datos codificados
     var completeURL = baseURL + '?data=' + encodedUserData;
 
-    // Acortar la URL utilizando un servicio de acortamiento
-    var shortenerAPI = 'https://api.shrtco.de/v2/shorten?url=' + encodeURIComponent(completeURL);
-    fetch(shortenerAPI)
-      .then(response => response.json())
-      .then(data => {
-        var shortURL = data.result.short_link;
-
-        // Generar el enlace compartido por WhatsApp
+    // Acortar la URL usando Bitly
+    shortenURL(completeURL, '538b42eeec714c3747ddaf14534a46f278f5f5a4', function(shortURL) {
+      if (shortURL) {
+        // Generar el enlace compartido por WhatsApp con la URL acortada
         var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + shortURL;
         var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
         var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
       
         // Abrir WhatsApp con el enlace compartido
         window.open(whatsappURL);
-      })
-      .catch(error => {
-        console.error('Error al acortar la URL:', error);
+      } else {
         // Si hay un error al acortar la URL, simplemente compartir la URL completa
         var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + completeURL;
         var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
@@ -167,7 +172,8 @@ window.onload = function() {
       
         // Abrir WhatsApp con el enlace compartido
         window.open(whatsappURL);
-      });
+      }
+    });
   });
 }
 
@@ -179,6 +185,33 @@ function formatDate(date) {
   return day + '/' + month + '/' + year;
 }
 
+// Función para acortar la URL usando Bitly
+function shortenURL(longURL, accessToken, callback) {
+  // Endpoint de la API de Bitly para acortar URL
+  var bitlyAPI = 'https://api-ssl.bitly.com/v4/shorten';
+
+  // Configuración de la solicitud
+  var requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + accessToken
+    },
+    body: JSON.stringify({ long_url: longURL })
+  };
+
+  // Realizar la solicitud a la API de Bitly
+  fetch(bitlyAPI, requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      var shortURL = data.link;
+      callback(shortURL); // Llamar al callback con la URL acortada
+    })
+    .catch(error => {
+      console.error('Error al acortar la URL con Bitly:', error);
+      callback(null); // Llamar al callback con valor nulo en caso de error
+    });
+}
 </script>
 
 <!-- Agregar la biblioteca Font Awesome -->
@@ -186,4 +219,3 @@ function formatDate(date) {
 
 </body>
 </html>
-
