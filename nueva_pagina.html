@@ -79,7 +79,7 @@
       // Configura las opciones de la animación
       const opcionesConfeti = {
         emojis: ['🎉', '❤️', '🌟', '🎈', '😊'] ,// Ingresa otros emojis aquí
-        particleCount: 200, // Aumenta la cantidad de confeti
+        particleCount: 500, // Aumenta la cantidad de confeti
         spread: 180, // Aumenta el rango de dispersión
         //colors: ['#ff0000', '#00ff00', '#0000ff'] // Personaliza los colores del confeti
       };
@@ -214,31 +214,31 @@ function formatDate(date) {
   return day + '/' + month + '/' + year;
 }
 
-var calendarButton = document.getElementById('calendarButton');
-  calendarButton.addEventListener('click', function() {
-    var startTimeString = userData.birthday + 'T' + userData.time;
-    var endTimeString = userData.birthday + 'T' + userData.endTime;
-    var eventTitle = "Cumpleaños de " + userData.name;
+// var calendarButton = document.getElementById('calendarButton');
+//   calendarButton.addEventListener('click', function() {
+//     var startTimeString = userData.birthday + 'T' + userData.time;
+//     var endTimeString = userData.birthday + 'T' + userData.endTime;
+//     var eventTitle = "Cumpleaños de " + userData.name;
 
-    var calendarURL = "BEGIN:VCALENDAR\n" +
-                      "VERSION:2.0\n" +
-                      "BEGIN:VEVENT\n" +
-                      "SUMMARY:" + eventTitle + "\n" +
-                      "DTSTART:" + startTimeString + "\n" +
-                      "DTEND:" + endTimeString + "\n" +
-                      "END:VEVENT\n" +
-                      "END:VCALENDAR\n";
+//     var calendarURL = "BEGIN:VCALENDAR\n" +
+//                       "VERSION:2.0\n" +
+//                       "BEGIN:VEVENT\n" +
+//                       "SUMMARY:" + eventTitle + "\n" +
+//                       "DTSTART:" + startTimeString + "\n" +
+//                       "DTEND:" + endTimeString + "\n" +
+//                       "END:VEVENT\n" +
+//                       "END:VCALENDAR\n";
 
-    var blob = new Blob([calendarURL], { type: 'text/calendar' });
-    var calendarLink = window.URL.createObjectURL(blob);
+//     var blob = new Blob([calendarURL], { type: 'text/calendar' });
+//     var calendarLink = window.URL.createObjectURL(blob);
 
-    var a = document.createElement('a');
-    a.href = calendarLink;
-    a.download = eventTitle + '.ics';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  });
+//     var a = document.createElement('a');
+//     a.href = calendarLink;
+//     a.download = eventTitle + '.ics';
+//     document.body.appendChild(a);
+//     a.click();
+//     document.body.removeChild(a);
+//   });
 
 // Función para acortar la URL usando Bitly
 function shortenURL(longURL, accessToken, callback) {
@@ -273,7 +273,7 @@ function shortenURL(longURL, accessToken, callback) {
 
 <!-- Agregar la biblioteca Font Awesome -->
 <script src="https://kit.fontawesome.com/8cced7e539.js" crossorigin="anonymous"></script>
-<script src="script.js"></script>
+<!-- <script src="script.js"></script> -->
 
 </body>
 </html>

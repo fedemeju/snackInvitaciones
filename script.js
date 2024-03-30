@@ -28,8 +28,3 @@ document.getElementById('userForm').addEventListener('submit', function(event) {
 var today = new Date().toISOString().split('T')[0];
 document.getElementById('birthday').setAttribute('min', today);
 
-confetti({
-  particleCount: 100,
-  spread: 70,
-  origin: { y: 0.6 },
-});
