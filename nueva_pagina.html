@@ -79,8 +79,8 @@
       // Configura las opciones de la animación
       const opcionesConfeti = {
         emojis: ['🎉', '❤️', '🌟', '🎈', '😊'] ,// Ingresa otros emojis aquí
-        particleCount: 500, // Aumenta la cantidad de confeti
-        spread: 120, // Aumenta el rango de dispersión
+        particleCount: 200, // Aumenta la cantidad de confeti
+        spread: 180, // Aumenta el rango de dispersión
         //colors: ['#ff0000', '#00ff00', '#0000ff'] // Personaliza los colores del confeti
       };
 
@@ -108,7 +108,7 @@ function lanzarConfeti() {
     // Configurar las opciones de la animación de confeti
     const opcionesConfeti = {
         emojis: ['🎉', '❤️', '🌟', '🎈', '😊'], // Ingresa otros emojis aquí
-        particleCount: 300, // Aumenta la cantidad de confeti
+        particleCount: 200, // Aumenta la cantidad de confeti
         spread: 180, // Aumenta el rango de dispersión
         //colors: ['#ff0000', '#00ff00', '#0000ff'] // Personaliza los colores del confeti
     };
@@ -170,9 +170,9 @@ window.onload = function() {
 
   + ".";
 
-// Botón para compartir por WhatsApp
-var shareButton = document.getElementById('shareButton');
-shareButton.addEventListener('click', function() {
+  // Botón para compartir por WhatsApp
+  var shareButton = document.getElementById('shareButton');
+  shareButton.addEventListener('click', function() {
     // Obtener la URL base de la página actual
     var baseURL = window.location.href.split('?')[0];
     
@@ -184,7 +184,7 @@ shareButton.addEventListener('click', function() {
 
     // Acortar la URL usando Bitly
     shortenURL(completeURL, '538b42eeec714c3747ddaf14534a46f278f5f5a4', function(shortURL) {
-      if (shortURL && isIOS()) {
+      if (shortURL) {
         // Generar el enlace compartido por WhatsApp con la URL acortada
         var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + shortURL;
         var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
@@ -193,7 +193,7 @@ shareButton.addEventListener('click', function() {
         // Abrir WhatsApp con el enlace compartido
         window.open(whatsappURL);
       } else {
-        // Si hay un error al acortar la URL o si no es iOS, simplemente compartir la URL completa
+        // Si hay un error al acortar la URL, simplemente compartir la URL completa
         var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + completeURL;
         var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
         var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
@@ -202,12 +202,7 @@ shareButton.addEventListener('click', function() {
         window.open(whatsappURL);
       }
     });
-});
-
-// Función para verificar si el usuario está en un dispositivo iOS
-function isIOS() {
-  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
+  });
   
 }
 
