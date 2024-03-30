@@ -299,7 +299,7 @@ h6{
         border-radius: 50%; /* Hace que la imagen sea redonda */
         overflow:auto; /* Oculta cualquier parte de la imagen que se salga del radio */
         position: absolute;
-        top: 25vh;
+        top: 30vh;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
 ;

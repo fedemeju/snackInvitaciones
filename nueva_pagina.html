@@ -53,7 +53,9 @@
   <button id="confettiButton" >🎉</button>
 </div>
 
-
+<div class="footers">
+  <button id="calendarButton">Agregar a Calendario</button>
+</div>
 
 <footer class="footer">
   <div class="social-media">
@@ -77,9 +79,9 @@
       // Configura las opciones de la animación
       const opcionesConfeti = {
         emojis: ['🎉', '❤️', '🌟', '🎈', '😊'] ,// Ingresa otros emojis aquí
-        particleCount: 200, // Aumenta la cantidad de confeti
-        spread: 180, // Aumenta el rango de dispersión
-        colors: ['#ff0000', '#00ff00', '#0000ff'] // Personaliza los colores del confeti
+        particleCount: 500, // Aumenta la cantidad de confeti
+        spread: 120, // Aumenta el rango de dispersión
+        //colors: ['#ff0000', '#00ff00', '#0000ff'] // Personaliza los colores del confeti
       };
 
       // Llama a la función confetti() con las opciones configuradas
@@ -106,9 +108,9 @@ function lanzarConfeti() {
     // Configurar las opciones de la animación de confeti
     const opcionesConfeti = {
         emojis: ['🎉', '❤️', '🌟', '🎈', '😊'], // Ingresa otros emojis aquí
-        particleCount: 200, // Aumenta la cantidad de confeti
+        particleCount: 300, // Aumenta la cantidad de confeti
         spread: 180, // Aumenta el rango de dispersión
-        colors: ['#ff0000', '#00ff00', '#0000ff'] // Personaliza los colores del confeti
+        //colors: ['#ff0000', '#00ff00', '#0000ff'] // Personaliza los colores del confeti
     };
 
     // Llamar a la función confetti() con las opciones configuradas
@@ -168,9 +170,9 @@ window.onload = function() {
 
   + ".";
 
-  // Botón para compartir por WhatsApp
-  var shareButton = document.getElementById('shareButton');
-  shareButton.addEventListener('click', function() {
+// Botón para compartir por WhatsApp
+var shareButton = document.getElementById('shareButton');
+shareButton.addEventListener('click', function() {
     // Obtener la URL base de la página actual
     var baseURL = window.location.href.split('?')[0];
     
@@ -182,7 +184,7 @@ window.onload = function() {
 
     // Acortar la URL usando Bitly
     shortenURL(completeURL, '538b42eeec714c3747ddaf14534a46f278f5f5a4', function(shortURL) {
-      if (shortURL) {
+      if (shortURL && isIOS()) {
         // Generar el enlace compartido por WhatsApp con la URL acortada
         var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + shortURL;
         var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
@@ -191,7 +193,7 @@ window.onload = function() {
         // Abrir WhatsApp con el enlace compartido
         window.open(whatsappURL);
       } else {
-        // Si hay un error al acortar la URL, simplemente compartir la URL completa
+        // Si hay un error al acortar la URL o si no es iOS, simplemente compartir la URL completa
         var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + completeURL;
         var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
         var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
@@ -200,7 +202,12 @@ window.onload = function() {
         window.open(whatsappURL);
       }
     });
-  });
+});
+
+// Función para verificar si el usuario está en un dispositivo iOS
+function isIOS() {
+  return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
   
 }
 
@@ -212,6 +219,31 @@ function formatDate(date) {
   return day + '/' + month + '/' + year;
 }
 
+var calendarButton = document.getElementById('calendarButton');
+  calendarButton.addEventListener('click', function() {
+    var startTimeString = userData.birthday + 'T' + userData.time;
+    var endTimeString = userData.birthday + 'T' + userData.endTime;
+    var eventTitle = "Cumpleaños de " + userData.name;
+
+    var calendarURL = "BEGIN:VCALENDAR\n" +
+                      "VERSION:2.0\n" +
+                      "BEGIN:VEVENT\n" +
+                      "SUMMARY:" + eventTitle + "\n" +
+                      "DTSTART:" + startTimeString + "\n" +
+                      "DTEND:" + endTimeString + "\n" +
+                      "END:VEVENT\n" +
+                      "END:VCALENDAR\n";
+
+    var blob = new Blob([calendarURL], { type: 'text/calendar' });
+    var calendarLink = window.URL.createObjectURL(blob);
+
+    var a = document.createElement('a');
+    a.href = calendarLink;
+    a.download = eventTitle + '.ics';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  });
 
 // Función para acortar la URL usando Bitly
 function shortenURL(longURL, accessToken, callback) {
