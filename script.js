@@ -18,7 +18,7 @@ document.getElementById('userForm').addEventListener('submit', function(event) {
   var encodedUserData = encodeURIComponent(JSON.stringify(userData));
 
   // Generar URL de la página nueva con los datos codificados
-  var pageURLWithData = "nueva_pagina.html?data=" + encodedUserData;
+  var pageURLWithData = "inv.html?data=" + encodedUserData;
 
   // Redireccionar a la nueva página
   window.location.href = pageURLWithData;

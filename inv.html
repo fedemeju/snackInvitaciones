@@ -170,9 +170,9 @@ window.onload = function() {
 
   + ".";
 
-  // Botón para compartir por WhatsApp
-  var shareButton = document.getElementById('shareButton');
-  shareButton.addEventListener('click', function() {
+// Botón para compartir por WhatsApp
+var shareButton = document.getElementById('shareButton');
+shareButton.addEventListener('click', function() {
     // Obtener la URL base de la página actual
     var baseURL = window.location.href.split('?')[0];
     
@@ -188,21 +188,22 @@ window.onload = function() {
         // Generar el enlace compartido por WhatsApp con la URL acortada
         var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + shortURL;
         var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
-        var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
-      
+        var whatsappURL = "https://api.whatsapp.com/send?text=" + encodedWhatsAppMessage; // Cambio aquí
+
         // Abrir WhatsApp con el enlace compartido
         window.open(whatsappURL);
       } else {
         // Si hay un error al acortar la URL, simplemente compartir la URL completa
         var whatsappMessage = "¡Estás invitado al cumpleaños de " + userData.name + "! Haz clic aquí para ver los detalles: " + completeURL;
         var encodedWhatsAppMessage = encodeURIComponent(whatsappMessage);
-        var whatsappURL = "whatsapp://send?text=" + encodedWhatsAppMessage;
-      
+        var whatsappURL = "https://api.whatsapp.com/send?text=" + encodedWhatsAppMessage; // Cambio aquí
+
         // Abrir WhatsApp con el enlace compartido
         window.open(whatsappURL);
       }
     });
-  });
+});
+
   
 }
 
