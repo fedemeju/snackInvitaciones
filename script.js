@@ -24,7 +24,7 @@ document.getElementById('userForm').addEventListener('submit', function(event) {
   window.location.href = pageURLWithData;
 });
 
+
 // Restringir la selección de fecha a fechas futuras
 var today = new Date().toISOString().split('T')[0];
 document.getElementById('birthday').setAttribute('min', today);
-

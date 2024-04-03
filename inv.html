@@ -42,6 +42,7 @@
   </div>
   <div class="countdown">
     <h2>¿Cuánto Falta?</h2>
+    <button id="calendarButton">Agregar a Calendario</button>
     <p id="countdownTimer"></p>
   </div>
   <div class="footers">
@@ -49,6 +50,8 @@
     <button class="heartbeat" id="shareButton">Compartir por WhatsApp</button>
   </div>
 </div>
+
+
 <div class="footers">
   <button id="confettiButton" >🎉</button>
 </div>
@@ -215,31 +218,77 @@ function formatDate(date) {
   return day + '/' + month + '/' + year;
 }
 
-// var calendarButton = document.getElementById('calendarButton');
-//   calendarButton.addEventListener('click', function() {
-//     var startTimeString = userData.birthday + 'T' + userData.time;
-//     var endTimeString = userData.birthday + 'T' + userData.endTime;
-//     var eventTitle = "Cumpleaños de " + userData.name;
+ // Función para agregar el evento del cumpleaños al calendario
+ function agregarAlCalendario(userData) {
+    var startTime = new Date(userData.birthday);
+    var endTime = new Date(userData.birthday);
+    startTime.setHours(parseInt(userData.time.split(':')[0]), parseInt(userData.time.split(':')[1]));
+    endTime.setHours(startTime.getHours() + 2, parseInt(userData.time.split(':')[1]));
 
-//     var calendarURL = "BEGIN:VCALENDAR\n" +
-//                       "VERSION:2.0\n" +
-//                       "BEGIN:VEVENT\n" +
-//                       "SUMMARY:" + eventTitle + "\n" +
-//                       "DTSTART:" + startTimeString + "\n" +
-//                       "DTEND:" + endTimeString + "\n" +
-//                       "END:VEVENT\n" +
-//                       "END:VCALENDAR\n";
+    var eventTitle = "Cumpleaños de " + userData.name;
+    var startTimeString = startTime.toISOString().replace(/-|:|\.\d+/g, "");
+    var endTimeString = endTime.toISOString().replace(/-|:|\.\d+/g, "");
 
-//     var blob = new Blob([calendarURL], { type: 'text/calendar' });
-//     var calendarLink = window.URL.createObjectURL(blob);
+    // Construir el enlace para agregar al calendario
+    var calendarURL = "BEGIN:VCALENDAR\n" +
+                      "VERSION:2.0\n" +
+                      "BEGIN:VEVENT\n" +
+                      "SUMMARY:" + eventTitle + "\n" +
+                      "DTSTART:" + startTimeString + "\n" +
+                      "DTEND:" + endTimeString + "\n" +
+                      "END:VEVENT\n" +
+                      "END:VCALENDAR\n";
 
-//     var a = document.createElement('a');
-//     a.href = calendarLink;
-//     a.download = eventTitle + '.ics';
-//     document.body.appendChild(a);
-//     a.click();
-//     document.body.removeChild(a);
-//   });
+    // Crear un Blob con los datos del calendario
+    var blob = new Blob([calendarURL], { type: 'text/calendar' });
+    var calendarLink = window.URL.createObjectURL(blob);
+
+    // Crear un enlace para descargar el archivo del calendario
+    var a = document.createElement('a');
+    a.href = calendarLink;
+    a.download = eventTitle + '.ics';
+
+    // Hacer clic en el enlace para descargar el archivo del calendario
+    a.click();
+  }
+
+  // Obtener los parámetros de la URL
+  var urlParams = new URLSearchParams(window.location.search);
+  
+  // Verificar si el parámetro 'data' está presente en la URL
+  if (urlParams.has('data')) {
+    // Obtener el valor del parámetro 'data'
+    var userDataString = urlParams.get('data');
+    
+    // Decodificar los datos del usuario
+    var userData = JSON.parse(decodeURIComponent(userDataString));
+    
+    // Agregar evento al calendario cuando se haga clic en el botón
+    var calendarButton = document.getElementById('calendarButton');
+    calendarButton.addEventListener('click', function() {
+      agregarAlCalendario(userData);
+    });
+  } else {
+    console.log('No se encontraron datos en la URL.');
+  }
+// Agregar evento al calendario cuando se haga clic en el botón
+var calendarButton = document.getElementById('calendarButton');
+calendarButton.addEventListener('click', function() {
+
+  // Verificar si se ingresaron todos los datos requeridos
+  if (name && birthday && time) {
+    var userData = {
+      name: name,
+      birthday: birthday,
+      time: time
+    };
+    
+    // Agregar el evento al calendario
+    agregarAlCalendario(userData);
+  } else {
+    alert("Por favor ingrese todos los datos requeridos.");
+  }
+});
 
 // Función para acortar la URL usando Bitly
 function shortenURL(longURL, accessToken, callback) {
@@ -274,7 +323,7 @@ function shortenURL(longURL, accessToken, callback) {
 
 <!-- Agregar la biblioteca Font Awesome -->
 <script src="https://kit.fontawesome.com/8cced7e539.js" crossorigin="anonymous"></script>
-<!-- <script src="script.js"></script> -->
+<script src="script.js"></script>
 
 </body>
 </html>
